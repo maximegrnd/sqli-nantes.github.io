@@ -1,0 +1,239 @@
+<!DOCTYPE HTML>
+
+<html>
+
+	<head>
+		<title>Projet - connected-agency</title>
+		<meta charset="utf-8" />
+		<meta name="description" content=""/>
+		<link rel="stylesheet" href="../../css/main.css"/>
+		<link rel="stylesheet" href="../../css/styles/tomorrow.css">
+	</head>
+
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1>connected-agency</h1>
+						<p><ul class="statistics">
+								<li id="init_date">Created</li>
+								<li id="last_update">Updated</li>
+								<li id="nb_contributors">contributors</li>
+								<li id="nb_commits">commits</li>
+						</ul></p>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul id="summary">
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Content -->
+							<section id="content" class="main">
+										<!-- <span class="image main"><img src="../../images/*.ext" alt="" /></span> -->
+							
+								<!-- Macro Jekyll -->
+										                                    <div class="content"> 
+<h1 id="agence-connectée">Agence Connectée</h1>
+
+<p>Le projet est composé de 3 parties :</p>
+
+<ul>
+  <li>Le capteur de son. Il capte le bruit ambiant et calcule les décibels. L’information est ensuite émise par un signal radio 433Mhz.</li>
+  <li>Le récepteur radio capte les signaux envoyés par l’émetteur decibelmètre. Il transmet ensuite les informations au Raspbery PI par le port série (via USB).</li>
+  <li>Le Raspberry PI qui récupère ces informations et les transmet à un broker MQTT.</li>
+</ul>
+
+<p>L’experimentation sur breadboard.
+ <img src="doc/photo.jpg" alt="photo" /></p>
+
+<p>Le résultat final avec soudage et wire-wrapping.
+<img src="doc/photo_final.jpg" alt="photo" /></p>
+
+<h1 id="capteur-de-son">Capteur de son</h1>
+<p>Matériel :</p>
+
+<ul>
+  <li>Arduino Nano</li>
+  <li>Arduino Micro</li>
+  <li>Emetteur Radio RF433Mhz : FS1000A</li>
+  <li>Recepteur Radio RF433Mhz : XY-MK-5V</li>
+  <li>Capteur son : Arduino KY-038 Microphone sound sensor module</li>
+</ul>
+
+<p><img src="doc/rf433.jpg" alt="capteurs" /></p>
+
+<h2 id="emetteur">Emetteur</h2>
+<p>Schéma de cablage :
+<img src="doc/emetteur.png" alt="schéma" /></p>
+
+<p>Pour l’installation du Sketch, il faut installer la librairie VirtualWire
+ https://www.pjrc.com/teensy/td_libs_VirtualWire.html</p>
+
+<p>Le code source est <a href="decibelmetre/emetteur/emetteur.ino">disponible ici</a>.</p>
+
+<h2 id="recepteur">Recepteur</h2>
+<p>Schéma de cablage
+<img src="doc/recepteur.png" alt="schéma" /></p>
+
+<p>Le code source est <a href="decibelmetre/recepteur/recepteur.ino">disponible ici</a>.</p>
+
+<h1 id="afficheur-lcd">Afficheur LCD</h1>
+<p>Le rôle de l’afficheur LCD est d’afficher l’adresse IP du système. L’objectif est avant tout de faciliter l’expérience utilisateur : celui-ci n’a pas à se connecter à un écran, ni même lancer les commandes réseaux (type nmap) pour récupérer l’IP du Raspberry PI.</p>
+
+<p>On s’appuie sur un écran LCD 16x2.</p>
+
+<p>Il est connecté directement sur le Raspberry PI par le GPIO. Le potentiometre permet de régler la luminosité de l’écran.</p>
+
+<p><img src="doc/lcd.png" alt="schéma" /></p>
+
+<h1 id="raspberry-pi">Raspberry PI</h1>
+<p>Le raspberry PI est conencté au récepteur par port série via USB. Il récupère l’information du récepteur, puis envoie les informations à un broker MQTT.</p>
+
+<h2 id="installation-raspberry-pi---détails">Installation Raspberry PI - détails</h2>
+
+<h3 id="installation-raspbian">Installation Raspbian</h3>
+<p>Télécharger <a href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian Jessie</a>.</p>
+
+<p>Installer en suivant les <a href="https://www.raspberrypi.org/documentation/installation/installing-images/README.md">instructions officielles selon l’OS</a>.</p>
+
+<p>Lors de la première installation, le serveur SSH n’est pas activé. Se connecter via écran/clavier sur le PI en utilisant les identifiants/password par défaut (<code class="highlighter-rouge">pi</code>/<code class="highlighter-rouge">raspberry</code>. Attention par défaut le clavier est configuré en qwerty).</p>
+
+<h2 id="paramétrage">Paramétrage</h2>
+<p>Activer le ssh en lancant : <code class="highlighter-rouge">sudo raspi-config</code>, puis ` Advanced Options<code class="highlighter-rouge">, </code>SSH`.</p>
+
+<p>Renommer le Raspberrypi en lancant <code class="highlighter-rouge">sudo raspi-config</code>, puis <code class="highlighter-rouge">Advanced Options</code>, <code class="highlighter-rouge">Hostname</code>. Le renommer en <code class="highlighter-rouge">connectedagencypi</code>.</p>
+
+<h2 id="installation-des-outils">Installation des outils</h2>
+
+<p>Installer l’écosystème python :</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install python-dev python-rpi.gpio python-pip
+</code></pre>
+</div>
+
+<p>puis installer les librairies :</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo pip install paho-mqtt
+sudo pip install pyserial
+</code></pre>
+</div>
+
+<h2 id="paramétrage-des-droits">Paramétrage des droits</h2>
+<p>Si la connexion sur le port Série ne se fait pas, vérifier cette démarche ici : http://playground.arduino.cc/Linux/All#Permission</p>
+
+<p>Rebooter pour prendre en compte les nouveaux droits.</p>
+
+<h2 id="installation-des-scripts">Installation des scripts</h2>
+<p>Copier les scripts du répertoire <code class="highlighter-rouge">lcd/</code> et <code class="highlighter-rouge">pi/</code> dans le répertoire <code class="highlighter-rouge">/home/pi</code> directement à la racine.</p>
+
+<p>On a donc :</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>/home/pi/
+    read_arduino_and_broadcast.sh
+    display_ip.sh
+</code></pre>
+</div>
+<p>Rendre ces scripts exécutables, s’il ne le sont pas.</p>
+
+<p>Renommer le fichier <code class="highlighter-rouge">/etc/rc.local</code> en <code class="highlighter-rouge">rc.local.original</code> :</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo cp /etc/rc.local /etc/rc.local.original
+</code></pre>
+</div>
+<p>copier le fichier <code class="highlighter-rouge">rc.local</code> disponible dans les source <code class="highlighter-rouge">/pi/rc.local</code> dans <code class="highlighter-rouge">/etc/</code>.</p>
+
+<p>Rebooter le PI, qui devrait normalement afficher son IP sur le LCD au prochain démarrage.</p>
+
+<p>Les connexions peuvent donc désormais se faire en SSH en se connectant sur cette IP dorénavant.</p>
+
+<h2 id="paramétrage-du-broker">Paramétrage du broker</h2>
+
+<p>Editer le fichier <code class="highlighter-rouge">/home/pi/read_arduino_and_broadcast.sh</code>.</p>
+
+<p>Modifier les paramétrages en fonction de l’environnement.</p>
+
+<h1 id="développements-et-débogage">Développements et débogage</h1>
+
+<h3 id="vérifier-le-montage-de-larduino-sur-pi">Vérifier le montage de l’Arduino sur PI</h3>
+
+<p>lancer la commande <code class="highlighter-rouge">lsusb</code>. Un montage Arduino doit apparaitre.
+Par exemple :</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Bus 001 Device 004: ID 2341:8037 Arduino SA
+Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp. SMSC9512/9514 Fast Ethernet Adapter
+Bus 001 Device 002: ID 0424:9514 Standard Microsystems Corp.
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+</code></pre>
+</div>
+
+<p>Si le périphérique n’est pas reconnu, vérifier avec la commande <code class="highlighter-rouge">dmesg</code> s’il apparait.</p>
+
+<h3 id="connaitre-le-port-série-utilisé-par-larduino">Connaitre le port Série utilisé par l’Arduino</h3>
+<p>Normallement, c’est le port <code class="highlighter-rouge">/dev/ttyACM0</code> qui est utilisé. Si ce n’est pas le cas, il est possible de vérifier le nom du périphérique en utilisant la commande <code class="highlighter-rouge">dmesg</code> et analyser les logs qui devraient faire apparaitre le device.</p>
+
+<p>Une fois après avoir branché l’arduino sur le port USB, lancer la commande <code class="highlighter-rouge">dmesg</code> qui devrait faire apparaitre <code class="highlighter-rouge">new USB device connected</code>…<code class="highlighter-rouge">Product Aduino Micro</code> et faire apparaitre le port utilisé (<code class="highlighter-rouge">/dev/ttyACM0</code>).</p>
+
+<h3 id="valider-la-réception-sur-le-port-série">Valider la réception sur le port Série</h3>
+<p>Installer <code class="highlighter-rouge">minicom</code> (pour valider la connexion Série avec l’arduino).</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install minicom
+</code></pre>
+</div>
+
+<p>Il est possible de vérifier la réception sur le port Série en lançant la commande <code class="highlighter-rouge">minicom -b 9600 -o -D /dev/ttyACM0</code>.</p>
+
+<h3 id="problèmes-de-seuillage">Problèmes de seuillage</h3>
+<p>Le capteur de son n’est pas très fiable.
+On remonte des informations sans savoir vraiment s’il s’agit de dB.
+Selon l’environnement, Il est judicieux de jouer avec le seuillage de déclenchement.</p>
+
+<h1 id="améliorations">Améliorations</h1>
+
+<h2 id="restitution-dautres-informations">Restitution d’autres informations</h2>
+<p>Récupérer des informations complémentaires à pas cher :
+Raspberry Sense HAT permettrait d’implémenter la restitution sonore, mais également de récupérer la température dans la pièce, (la pression et l’humidité sont également possible)</p>
+
+<h2 id="miniaturisation">Miniaturisation</h2>
+<p>Les modules fonctionnent encore en Arduino. L’idée serait de les miniaturiser via les ATTiny85</p>
+
+<h2 id="sans-fil">Sans fil</h2>
+<p>Le Rpi est pour l’instant en RJ45. dès qu’il est allumé, il affiche son adresse IP. L’idée serait donc qu’il mettes à dispo un serveur Web de parametrage du Wifi et permet par la suite de se connecter via le WiFI via cette interface Web. S’inspirer des façons de faire des autres objets connectés (Nao, Nest, ChromeCast).</p>
+
+<h2 id="paramétrage-du-broker-via-interface-web">Paramétrage du broker via interface Web</h2>
+<p>Proposer une interface Web pour paramétrer la connexion sur le Broker.</p>
+
+<h2 id="boitier">Boitier</h2>
+<p>Il aurait été intéressant d’avoir un boitier imprimé en 3D!</p>
+ </div>                          
+
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<p class="copyright"><a href="http://www.sqli.com/"><img src="../../images/logo_sqli.png" height="24" width="44" style="vertical-align: middle; border: 0px"></a> | SQLi Nantes &copy; 2017 - CC-BY-SA 4.0. Design: <a href="https://html5up.net">HTML5 UP</a> modified by <a href="https://github.com/maximegrnd">Maxime GRAND</a>.</p>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script type="text/javascript" src="../../js/jquery.min.js"></script>
+			<script type="text/javascript" src="../../js/jquery.scrollex.min.js"></script>
+			<script type="text/javascript" src="../../js/jquery.scrolly.min.js"></script>
+			<script type="text/javascript" src="../../js/skel.min.js"></script>
+			<script type="text/javascript" src="../../js/util.js"></script>
+			<script type="text/javascript" src="../../js/main.js"></script>
+			<script type="text/javascript" src="../../js/url_request.js"></script>
+			<script type="text/javascript" src="js/data_connected_agency.js"></script>
+			<script type="text/javascript" src="../../js/generate_summary.js"></script>
+			<script type="text/javascript" src="../../js/highlight.pack.js"></script>
+			<script>hljs.initHighlightingOnLoad();</script>
+
+	</body>
+</html>

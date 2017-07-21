@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+
+<html>
+
+	<head>
+		<title>Projet - acgon-mongodb</title>
+		<meta charset="utf-8" />
+		<meta name="description" content=""/>
+		<link rel="stylesheet" href="../../css/main.css"/>
+		<link rel="stylesheet" href="../../css/styles/tomorrow.css">
+	</head>
+
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1>acgon-mongodb</h1>
+						<p><ul class="statistics">
+								<li id="init_date">Created</li>
+								<li id="last_update">Updated</li>
+								<li id="nb_contributors">contributors</li>
+								<li id="nb_commits">commits</li>
+						</ul></p>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul id="summary">
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Content -->
+							<section id="content" class="main">
+										<!-- <span class="image main"><img src="../../images/*.ext" alt="" /></span> -->
+							
+								<!-- Macro Jekyll -->
+										                                                      <div class="content"> <p>Installation :</p>
+
+<p>https://docs.mongodb.com/manual/tutorial/install-mongodb-on-amazon/
+https://docs.mongodb.com/ecosystem/platforms/amazon-ec2/</p>
+
+<p>sudo –i</p>
+
+<p>vi /etc/yum.repos.d/mongodb-org-2.6.repo</p>
+
+<p>Mettre ça dans le fichier :</p>
+
+<p>[mongodb-org-3.2]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.2/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-3.2.asc</p>
+
+<p>sudo yum install -y mongodb-org</p>
+
+<p>mkdir /data /log /journal</p>
+
+<p>mkfs.ext4 /dev/sdb
+mkfs.ext4 /dev/sdc
+mkfs.ext4 /dev/sdd</p>
+
+<p>echo ‘/dev/sdb /data ext4 defaults,auto,noatime,noexec 0 0
+/dev/sdc /journal ext4 defaults,auto,noatime,noexec 0 0
+/dev/sdd /log ext4 defaults,auto,noatime,noexec 0 0’ | sudo tee -a /etc/fstab</p>
+
+<p>mount /data
+mount /journal
+mount /log</p>
+
+<p>chown mongod:mongod /data /journal /log</p>
+
+<p>ln -s /journal /data/journal</p>
+
+<p>vi /etc/mongod.conf</p>
+
+<p>Mettre ça dedans :
+dbpath = /data
+logpath = /log/mongod.log</p>
+
+<p>sudo chkconfig mongod off</p>
+
+<p>vi /etc/security/limits.conf</p>
+
+<p>Mettre dedans :</p>
+<ul>
+  <li>soft nofile 64000</li>
+  <li>hard nofile 64000</li>
+  <li>soft nproc 32000</li>
+  <li>hard nproc 32000</li>
+</ul>
+
+<p>vi /etc/security/limits.d/90-nproc.conf</p>
+
+<p>Mettre dedans :</p>
+<ul>
+  <li>soft nproc 32000</li>
+  <li>hard nproc 32000</li>
+</ul>
+
+<p>blockdev –setra 32 /dev/xvda
+echo ‘ACTION==”add”, KERNEL==”xvda”, ATTR{bdi/read_ahead_kb}=”16”’ | sudo tee -a /etc/udev/rules.d/85-ebs.rules</p>
+
+<p>blockdev –setra 32 /dev/sdb
+echo ‘ACTION==”add”, KERNEL==”sdb”, ATTR{bdi/read_ahead_kb}=”16”’ | sudo tee -a /etc/udev/rules.d/85-ebs.rules</p>
+
+<p>sudo blockdev –setra 32 /dev/sdc
+echo ‘ACTION==”add”, KERNEL==”sdc”, ATTR{bdi/read_ahead_kb}=”16”’ | sudo tee -a /etc/udev/rules.d/85-ebs.rules</p>
+
+<p>sudo blockdev –setra 32 /dev/sdd
+echo ‘ACTION==”add”, KERNEL==”sdd”, ATTR{bdi/read_ahead_kb}=”16”’ | sudo tee -a /etc/udev/rules.d/85-ebs.rules</p>
+
+<p>service mongod start</p>
+
+<p>Mongo</p>
+ </div>        
+
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<p class="copyright"><a href="http://www.sqli.com/"><img src="../../images/logo_sqli.png" height="24" width="44" style="vertical-align: middle; border: 0px"></a> | SQLi Nantes &copy; 2017 - CC-BY-SA 4.0. Design: <a href="https://html5up.net">HTML5 UP</a> modified by <a href="https://github.com/maximegrnd">Maxime GRAND</a>.</p>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script type="text/javascript" src="../../js/jquery.min.js"></script>
+			<script type="text/javascript" src="../../js/jquery.scrollex.min.js"></script>
+			<script type="text/javascript" src="../../js/jquery.scrolly.min.js"></script>
+			<script type="text/javascript" src="../../js/skel.min.js"></script>
+			<script type="text/javascript" src="../../js/util.js"></script>
+			<script type="text/javascript" src="../../js/main.js"></script>
+			<script type="text/javascript" src="../../js/url_request.js"></script>
+			<script type="text/javascript" src="js/data_agcon_mongodb.js"></script>
+			<script type="text/javascript" src="../../js/generate_summary.js"></script>
+			<script type="text/javascript" src="../../js/highlight.pack.js"></script>
+			<script>hljs.initHighlightingOnLoad();</script>
+
+	</body>
+</html>

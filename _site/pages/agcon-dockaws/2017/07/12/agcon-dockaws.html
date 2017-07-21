@@ -1,0 +1,73 @@
+
+<p>######### Doc
+http://docs.aws.amazon.com/cli/latest/userguide/tutorial-ec2-ubuntu.html#configure-cli-launch-ec2
+#Limit du nombre d’instance par zone, only one for now
+http://aws.amazon.com/fr/ec2/faqs/#How_many_instances_can_I_run_in_Amazon_EC2</p>
+
+<p>######################### INSTALL LOCAL TOOLS (debian) ######################
+#As root
+sudo -i
+#Install Docker
+curl -sSL https://get.docker.com/ | sh
+#Install Docker machine
+curl -L https://github.com/docker/machine/releases/download/v0.6.0/docker-machine-<code class="highlighter-rouge">uname -s</code>-<code class="highlighter-rouge">uname -m</code> &gt; /usr/local/bin/docker-machine &amp;&amp; chmod +x /usr/local/bin/docker-machine
+#Install Docker compose
+curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-<code class="highlighter-rouge">uname -s</code>-<code class="highlighter-rouge">uname -m</code> &gt; /usr/local/bin/docker-compose &amp;&amp; chmod +x /usr/local/bin/docker-compose
+#Install aws cli
+apt-get install awscli
+#get back to standard user
+exit</p>
+
+<p>######################### Configure aws cli et set les varaibles dans ~/.aws/credentials ######################
+aws configure
+AWS Access Key ID [None]: XXXXXXXXXXXXXXXXXx
+AWS Secret Access Key [None]: XXXXXXXXXXXXXXXXXXXXXx
+Default region name [None]: us-east-1
+Default output format [None]:</p>
+
+<p>######################### Initiate aws project   ######################
+export AWS_PROJECT=testv10</p>
+
+<h5 id="create-the-security-group-pour-ouvrir-certain-port-du-docker-host-au-moins-ssh-22--docker-command-2376">Create the security group pour ouvrir certain port du docker host. Au moins SSH 22 + Docker command 2376</h5>
+<p>aws ec2 create-security-group –group-name docksg$AWS_PROJECT –description dock-security-group-$AWS_PROJECT
+aws ec2 authorize-security-group-ingress –group-name docksg$AWS_PROJECT –protocol tcp –port 22 –cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress –group-name docksg$AWS_PROJECT –protocol tcp –port 2376 –cidr 0.0.0.0/0</p>
+
+<p>######################### Create the docker host server basé sur amazon Linux AMI et t2.micro pour profiter les 750h gratuit par mois   ######################
+docker-machine create –driver amazonec2 \
+–amazonec2-region us-east-1 \
+–amazonec2-zone c \
+–amazonec2-security-group docksg$AWS_PROJECT \
+–amazonec2-tags project:$AWS_PROJECT dockinstance$AWS_PROJECT</p>
+
+<h1 id="engine-env-engine-env-option-engine-env-option-specify-environment-variables-to-set-in-the-engine">–engine-env [–engine-env option –engine-env option] Specify environment variables to set in the engine</h1>
+
+<p>#Recuperation de l’instance ID
+export AWS_ID=<code class="highlighter-rouge">aws ec2 describe-instances --filters "Name=tag-value,Values=dockinstance$AWS_PROJECT" --output text --query 'Reservations[0].Instances[0].InstanceId'</code>
+echo $AWS_ID</p>
+
+<h4 id="definit-le-variables-denv-pour-definir-ce-docker-host-par-default">definit le variables d’env pour definir ce docker host par default</h4>
+<h4 id="a-partir-de-ce-moment-les-commandes-docker-et-docker-compose-vont-sexecuter-sur-le-docker-host-créer-chez-aws">a partir de ce moment les commandes docker et docker-compose vont s’executer sur le docker host créer chez aws</h4>
+<p>eval $(docker-machine env dockinstance$AWS_PROJECT)
+################ docker machine ip
+docker-machine ip dockinstance$AWS_PROJECT
+################ docker machine ssh on peux aussi stop/start notre docker host
+docker-machine ssh dockinstance$AWS_PROJECT</p>
+<h1 id="on-a-normalement-pas-de-raison-de-se-connecter-directement-en-ssh-au-docker-host-tous-passe-par-des-commandes-docker-à-distance">On a normalement pas de raison de se connecter directement en ssh au docker host, tous passe par des commandes docker à distance</h1>
+
+<p>########################Build l’image docker (le dockerfile local) sur le docker host distant
+docker build -t hello .
+########################On démarre nos images (docker-compose.yml) sur le docker host distant
+docker-compose up</p>
+
+<p>##Allow extra port (ici le port 80 doit être ouvert pour acceder au service)
+aws ec2 authorize-security-group-ingress –group-name docksg$AWS_PROJECT –protocol tcp –port 80 –cidr 0.0.0.0/0</p>
+
+<p>##Test
+curl http://$(docker-machine ip dockinstance$AWS_PROJECT)/hello/$AWS_PROJECT</p>
+
+<p>###########################” Clean projet
+docker-machine rm dockinstance$AWS_PROJECT
+aws ec2 delete-security-group –group-name docksg$AWS_PROJECT</p>
+<h2 id="a-tester-docker-machine-rm-dockinstanceaws_project-amazonec2-security-group-docksgaws_project">A TESTER docker-machine rm dockinstance$AWS_PROJECT –amazonec2-security-group docksg$AWS_PROJECT</h2>
+

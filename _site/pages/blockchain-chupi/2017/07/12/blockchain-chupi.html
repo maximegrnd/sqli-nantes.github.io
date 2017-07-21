@@ -1,0 +1,149 @@
+<h1 id="chupi">ChuPi</h1>
+
+<p>This directory contains a complete demo of a decentralized car rent with the blockchain.
+In order to simulate a vehicle (CHOUPETTE), a Raspberry PI 3 is used and a color LED indicate the vehicle state.</p>
+
+<p>Here is the scenario :</p>
+
+<ol>
+  <li>CHOUPETTE is waiting for customers. It indicates its “available” mode (<strong>GREEN</strong> LED color) and diffuses its identity.</li>
+  <li>JIM approaches CHOUPETTE, “scan” around him, and discover CHOUPETTE identity and its state. JIM decides to rent CHOUPETTE.</li>
+  <li>CHOUPETTE update its state to <em>“customer interaction”</em> (<strong>ORANGE</strong> LED color). CHOUPETTE is asking for the destination.</li>
+  <li>JIM enter the coordinates of his destination, and sends them to CHOUPETTE.</li>
+  <li>CHOUPETTE compute the price of the ride and send it to JIM.</li>
+  <li>JIM decides to pay and sends the money to CHOUPETTE.</li>
+  <li>When the money is received, CHOUPETTE update its state to <em>unavailable</em> (<strong>ROUGE</strong> LED color).</li>
+  <li>Reaching the destination, JIM confirms the location is correct then waits for CHOUPETTE to confirm also.</li>
+  <li>CHOUPETTE confirms the location set on the contract then update to <em>available</em> (<strong>VERTE</strong> LED color).</li>
+</ol>
+
+<h2 id="architecture">Architecture</h2>
+<h3 id="choupette">CHOUPETTE</h3>
+
+<p>CHOUPETTE is made from 2 parts:</p>
+
+<ul>
+  <li>An Ethereum client for the communication with the network, in order to interact with the contract and synchronize with the blockchain,</li>
+  <li>An HTTP server, exposing the service informations :
+    <ul>
+      <li>the <em>smart-contract</em> interface</li>
+      <li>the <em>smart-contract</em> address</li>
+      <li>some side-informations (manufacturer, last maintenance, energy,…)</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="ports-et-adresses-temp">Ports et adresses (temp)</h4>
+<ul>
+  <li>IP: <strong>10.33.44.164</strong></li>
+  <li>port geth : <strong>30301</strong></li>
+  <li>port rpc geth : <strong>8547</strong></li>
+  <li>port server HTTP : <strong>8080</strong></li>
+</ul>
+
+<h4 id="connection-to-choupette-ssh">Connection to Choupette (SSH)</h4>
+<ul>
+  <li>id <strong>ssh pi@10.33.44.164</strong></li>
+  <li>mdp <strong>raspberry</strong></li>
+</ul>
+
+<h3 id="jim-simulation">JIM simulation</h3>
+
+<p>JIM is made from 3 parts :</p>
+
+<ul>
+  <li>A geth client identical to CHOUPETTE, simulating the mineur too <em>(The miner could be in on any node)</em>.</li>
+  <li>A HTTP server exposing a REST API communicating between Javascript application and Ethereum client.</li>
+  <li>A Javascript app running on the web browser.</li>
+</ul>
+
+<h4 id="ports-et-adresses-temp-1">Ports et adresses (temp)</h4>
+<ul>
+  <li>IP: <strong>10.33.44.XXX</strong></li>
+  <li>port geth : <strong>30301</strong></li>
+  <li>port rpc geth : <strong>8547</strong></li>
+  <li>port server HTTP : <strong>8088</strong></li>
+</ul>
+
+<h2 id="organisation-du-contenu">Organisation du contenu</h2>
+
+<ul>
+  <li><strong><em>geth/</em></strong> contains the files used when launching the Ethereum client (genesis, init commands,…).</li>
+  <li><strong><em>nodejs/</em></strong> contains the HTTP server files of CHOUPETTE</li>
+  <li><strong><em>demo/</em></strong> contains the HTTP server files of JIM Simulation and its Javascript app</li>
+</ul>
+
+<h2 id="scenario-flow">Scenario flow</h2>
+
+<h3 id="1---start-the-ethereum-client-of-jim-pc">1 - Start the Ethereum client of JIM (PC)</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd geth
+
+geth --datadir data/ --networkid "0x64" init genesis.json
+
+geth --datadir data/ --networkid "0x64" --port "30301" --rpc --rpcaddr "0.0.0.0" --rpcport "8547" --rpcapi "admin,eth,net,web3,personal" --rpccorsdomain "*" console
+
+[...]
+&gt; admin.nodeInfo.enode #save this information
+
+&gt; personal.newAccount("toto");
+&gt; miner.start();admin.sleepBlocks(10);miner.stop()
+&gt; personal.unlockAccount(eth.coinbase,"toto")
+&gt; eth.sendTransaction({from:eth.coinbase,to:"LeCompteEnodeDeChoupette",value:web3.toWei(10,"ether")})
+
+&gt; while(true){miner.start();admin.sleepBlocks(3);miner.stop();admin.sleep(10);}
+
+</code></pre>
+</div>
+
+<h3 id="2---start-ethereum-client-of-choupette-raspberry-pi">2 - Start Ethereum client of Choupette (Raspberry PI)</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd ~/geth
+
+./geth-1.4.5-stable-a269a71-linux-arm-7 --datadir ./node/ --networkid "0x64" init genesis.json
+
+./geth-1.4.5-stable-a269a71-linux-arm-7 --datadir ./node --networkid "0x64" --port "30301" --rpc --rpcaddr "0.0.0.0" --rpcport "8547" --rpcapi "admin,eth,miner,net,web3,personal" --rpccorsdomain "*" --fast --lightkdf console
+
+[...]
+&gt; personal.newAccount("toto");
+&gt; eth.accounts
+
+&gt; admin.addPeer(" enter here the previously saved information and replace [::] with JIM IP ")
+</code></pre>
+</div>
+
+<h3 id="3---start-chupi-server-raspberry-pi">3 - Start Chupi server (Raspberry PI)</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd ~/nodejs
+
+npm install
+
+npm start
+
+[...WAIT...]
+server OK
+</code></pre>
+</div>
+<h3 id="4---start-jim-application-pc">4 - Start JIM Application (PC)</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd demo/API
+
+npm install
+
+npm start
+
+[...WAIT...]
+serverOK
+
+</code></pre>
+</div>
+
+<p>Then open demo/demo.html in an web browser</p>
+
+<h2 id="todo-list">TODO LIST</h2>
+
+<ul>
+  <li>Resolve synchronisation issues in Geth RPI ( branches/ speed of synchronization )</li>
+  <li>Externalize serverRPI.js configuration in a file</li>
+</ul>
+

@@ -1,0 +1,37 @@
+<h1 id="blockchain-bootnode">blockchain-BootNode</h1>
+<p>Generic bootnode for blockchain projects</p>
+
+<h2 id="build">Build</h2>
+
+<p>The images is created from Appache <a href="https://github.com/docker-library/httpd/blob/12bf8c8883340c98b3988a7bade8ef2d0d6dcf8a/2.4/Dockerfile">HTTPD:2.4</a> image</p>
+
+<p>It contains :</p>
+<ul>
+  <li>a <a href="https://github.com/ethereum/go-ethereum/wiki/geth">Geth</a> client instance listening other clients to port <strong><em>30303</em></strong> <em>(default)</em></li>
+  <li>and an <a href="http://wiki.apache.org/httpd/">HTTP server</a> listening to port <strong><em>80</em></strong> <em>(default)</em></li>
+</ul>
+
+<h2 id="run">Run</h2>
+
+<p>The bootnode :</p>
+
+<ol>
+  <li>connects to the specified blockchain</li>
+  <li>creates an account</li>
+  <li>mine 10 blocks to get Ether</li>
+  <li>publishes its node info to the current.json file</li>
+</ol>
+
+<p>It can be launched with this command :</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>docker run -d -e NETWORKID="100" -v $(pwd)/genesis.json:/tmp/genesis.json -p 80:80 blockchain-bootnode
+</code></pre>
+</div>
+<p>with :</p>
+
+<ul>
+  <li><code class="highlighter-rouge">-e NETWORKID="100"</code> : replace <code class="highlighter-rouge">100</code> with your network id</li>
+  <li><code class="highlighter-rouge">-v $(PWD)/genesis.json:/tmp/genesis.json</code> : replace <code class="highlighter-rouge">$(PWD)</code> with path of your genesis block file</li>
+  <li><code class="highlighter-rouge">-p 80:80</code> : replace first <code class="highlighter-rouge">80</code> with the bound port on your machine.</li>
+</ul>
+
+<p>Have fun</p>

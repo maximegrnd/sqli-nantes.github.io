@@ -1,0 +1,38 @@
+<h1 id="the-no-html5-yet-taskboard">The “no HTML5 yet” Taskboard</h1>
+
+<p>Ce dépôt abrite l’application servant de support au concours HTML5 Nantes.</p>
+
+<p>Deux branches sont disponibles :</p>
+
+<ul>
+  <li>La branche <code class="highlighter-rouge">maven-branch</code> porte l’application au format Maven [branche courante]</li>
+  <li>La branche <code class="highlighter-rouge">eclipse-branch</code> porte l’application dans un projet Eclipse</li>
+</ul>
+
+<p>Basculez sur celle qui vous convient le mieux.</p>
+
+<h1 id="lancer-lapplication-taskboard-avec-maven">Lancer l’application Taskboard avec Maven</h1>
+
+<h2 id="pré-requis">Pré-requis</h2>
+<ul>
+  <li>JDK 6+
+    <ul>
+      <li>Installation : http://www.oracle.com/technetwork/java/javase/downloads/index.html</li>
+    </ul>
+  </li>
+  <li>Maven 3+
+    <ul>
+      <li>Téléchargement : http://maven.apache.org/download.html</li>
+      <li>Instructions : http://maven.apache.org/download.html#Installation_Instructions</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lancement">Lancement</h2>
+
+<p>Le projet est un projet Java construit avec Maven et embarquant Jetty sous forme de plugin.
+Pour construire et lancer l’application, un simple <code class="highlighter-rouge">mvn jetty:run</code> suffit.</p>
+
+<p>Une base MongoDB embarquée sera lancée et peuplée au démarrage de l’application.</p>
+
+<p>Accédez à l’application en pointant le navigateur de votre choix sur l’URL <code class="highlighter-rouge">http://localhost:8080/</code>.</p>

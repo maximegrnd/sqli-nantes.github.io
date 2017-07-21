@@ -1,0 +1,65 @@
+<h1 id="sqlidroid-agencies-with-android-annotations">SQLIDroid Agencies with Android Annotations</h1>
+
+<p>A fork of aBasic Android app rewritten to use Android Annotations and Lombok.</p>
+
+<p>Forked from <a href="https://github.com/sqli-nantes/sqlidroid-agencies">this repository</a>.</p>
+
+<p>It display all SQLI agencies.
+It’s composed of 3 screens : A main screen, a List view showing all available agencies, and a screen detailing a specific agency.</p>
+
+<p><img src="docs/screenshot1.jpg" alt="Main page" title="Main page" />
+<img src="docs/screenshot2.jpg" alt="Agencies list" title="Agencies list" />
+<img src="docs/screenshot3.jpg" alt="Agency detail" title="Agency detail" /></p>
+
+<h1 id="using-android-annotations">Using Android Annotations</h1>
+
+<p>Android Annotations simplifies the code by using annotations <code class="highlighter-rouge">@</code>.</p>
+
+<p><strong>1 rule</strong> to know :</p>
+<ul>
+  <li>bytecode for each class annotated by Android Annotations stays intact ! A subclass is generated and creates a new class suffixed by <code class="highlighter-rouge">_</code>.</li>
+</ul>
+
+<p><strong>2 corollaries</strong> to this rule :</p>
+<ul>
+  <li>All references to activities should be made to the underscored class. For instance, <code class="highlighter-rouge">MyActivity</code> will now be referenced as <code class="highlighter-rouge">MyActivity_</code> in the manifest or when using new Intents.</li>
+  <li>Attributes and functions annotated must be <code class="highlighter-rouge">protected</code> (and not <code class="highlighter-rouge">private</code> anymore).</li>
+</ul>
+
+<p><strong>Some annotations :</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">@EActivity(R.activity.main)</code> inflate le layout dans l’Activity</li>
+  <li><code class="highlighter-rouge">@ViewById(R.id.viewId)</code> binde le composant viewId</li>
+  <li><code class="highlighter-rouge">@Click(R.id.viewId)</code> action du clic du viewId</li>
+  <li><code class="highlighter-rouge">@EBean</code> pour instancier un Bean et <code class="highlighter-rouge">@Bean</code> pour injecter un bean</li>
+</ul>
+
+<p>More information on the <a href="http://androidannotations.org/">official website</a>.</p>
+
+<h1 id="using-lombok">Using Lombok</h1>
+
+<p>Lombok simplifies the Java code by generating extra bytecode during the APT processing.</p>
+
+<p>for instance :</p>
+<ul>
+  <li><code class="highlighter-rouge">@Getter</code> on an attribute adds its Getter</li>
+  <li><code class="highlighter-rouge">@Getter</code> on a class adds getters for all attributes of the class</li>
+  <li><code class="highlighter-rouge">@Data</code> on a class adds getters/setters, <code class="highlighter-rouge">toString()</code>, <code class="highlighter-rouge">hashCode()</code>, <code class="highlighter-rouge">equals()</code></li>
+</ul>
+
+<p>Gradle must have the following dependencies:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>provided "org.projectlombok:lombok:1.12.6"
+	apt "org.projectlombok:lombok:1.12.6"
+</code></pre>
+</div>
+
+<p>More informations on <a href="https://projectlombok.org">Lombok website</a> and its integation on Android at <a href="https://projectlombok.org/setup/android.html">Lombok setup for Android</a>.</p>
+
+<h1 id="how-apt-works-for-android">How APT works for Android</h1>
+<p>A picture is worth a thousand words.</p>
+
+<p><img src="docs/compilation_android_java.png" alt="Compilation android Java" /></p>
+
+<p><img src="docs/java_apt.png" alt="Java APT" /></p>

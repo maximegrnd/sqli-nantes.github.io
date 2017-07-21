@@ -1,0 +1,59 @@
+<h1 id="dockup-">dockup <a href="https://travis-ci.org/sqli-nantes/dockup"><img src="https://travis-ci.org/sqli-nantes/dockup.svg?branch=master" alt="Build Status" /></a></h1>
+<p>You want to simplify call to complex but recurrent commands ? Dock UP !</p>
+
+<h2 id="description">Description</h2>
+<p><strong>dockup</strong> transforms any complex command line into a single executable runnable from everywhere</p>
+
+<p>The choosen programming language is <a href="https://www.rust-lang.org/">Rust</a> simply because :</p>
+<ul>
+  <li>It allows low level system calls</li>
+  <li>It allows functional programming that makes code more understandable than usual sequential system programming</li>
+  <li>Once compiled, your program has good chances to not being affected by memory issues or unexpected behavior</li>
+</ul>
+
+<h2 id="why">Why</h2>
+<p>This tool allows to wrap a complex command into a simple alias</p>
+
+<h2 id="how-to-dockup-your-project-or-application-launch-">How to dockup your project or application launch ?</h2>
+<ol>
+  <li><em>First</em>, <strong>Create</strong> a YAML configuration file at the root of your project
+Example <code class="highlighter-rouge">mydockup.yaml</code> :
+    <div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">name</span> <span class="pi">:</span> <span class="s">myapplication</span>
+<span class="s">command</span> <span class="pi">:</span> <span class="s">docker run -it --rm -v /home/user1/var/data:/var/data -p 80:8080 -p 443:8443 mycontainer</span>
+</code></pre>
+    </div>
+  </li>
+  <li><em>Next</em>,  <strong>Install</strong> the new command
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>dockup install --config /path/to/mydockup.yaml
+</code></pre>
+    </div>
+    <p>This will add the config file inside a $HOME_DIR/.dockup/mycommand/dockup.yaml and create the alias.</p>
+  </li>
+  <li><em>Then</em>, <strong>Execute</strong> the program
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>myapplication
+</code></pre>
+    </div>
+    <p>it will launch the command configured behind the name <code class="highlighter-rouge">myapplication</code>, in the example, the <code class="highlighter-rouge">docker run</code>command</p>
+  </li>
+</ol>
+
+<h2 id="install-dockup">Install dockup</h2>
+<ol>
+  <li>Download the <a href="https://github.com/sqli-nantes/dockup/releases">last release</a> of dockup</li>
+  <li>Copy the dockup binary to /usr/bin
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo cp dockup /usr/bin
+</code></pre>
+    </div>
+  </li>
+</ol>
+
+<h2 id="want-more-">Want more ?</h2>
+<ul>
+  <li>If you need to test a configuration file without installing it (i.e. copying the config file into the local <code class="highlighter-rouge">.dockup</code> directory and creating the binary symbolic link into <code class="highlighter-rouge">/usr/bin</code> just call :
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>dockup run --config  /path/to/dockup.yaml
+</code></pre>
+    </div>
+    <p>which will execute the inner <code class="highlighter-rouge">command</code> described in the configuration file</p>
+  </li>
+</ul>
+

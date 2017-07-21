@@ -1,0 +1,73 @@
+---
+---
+
+<!DOCTYPE HTML>
+
+<html>
+
+	<head>
+		<title>Projet - aurelia-cli</title>
+		<meta charset="utf-8" />
+		<meta name="description" content=""/>
+		<link rel="stylesheet" href="../../css/main.css"/>
+		<link rel="stylesheet" href="../../css/styles/tomorrow.css">
+	</head>
+
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1>aurelia-cli</h1>
+						<p><ul class="statistics">
+								<li id="init_date">Created</li>
+								<li id="last_update">Updated</li>
+								<li id="nb_contributors">contributors</li>
+								<li id="nb_commits">commits</li>
+						</ul></p>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul id="summary">
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Content -->
+							<section id="content" class="main">
+										<!-- <span class="image main"><img src="../../images/*.ext" alt="" /></span> -->
+							
+								<!-- Macro Jekyll -->
+										{% for post in site.posts %} {% if post.path contains "/2017-07-12-aurelia-cli.md" %} <div class="content"> {{ post.content }} </div> {% endif %} {% endfor %}
+
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<p class="copyright"><a href="http://www.sqli.com/"><img src="../../images/logo_sqli.png" height="24" width="44" style="vertical-align: middle; border: 0px"></a> | SQLi Nantes &copy; 2017 - CC-BY-SA 4.0. Design: <a href="https://html5up.net">HTML5 UP</a> modified by <a href="https://github.com/maximegrnd">Maxime GRAND</a>.</p>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script type="text/javascript" src="../../js/jquery.min.js"></script>
+			<script type="text/javascript" src="../../js/jquery.scrollex.min.js"></script>
+			<script type="text/javascript" src="../../js/jquery.scrolly.min.js"></script>
+			<script type="text/javascript" src="../../js/skel.min.js"></script>
+			<script type="text/javascript" src="../../js/util.js"></script>
+			<script type="text/javascript" src="../../js/main.js"></script>
+			<script type="text/javascript" src="../../js/url_request.js"></script>
+			<script type="text/javascript" src="js/data_aurelia_cli.js"></script>
+			<script type="text/javascript" src="../../js/generate_summary.js"></script>
+			<script type="text/javascript" src="../../js/highlight.pack.js"></script>
+			<script>hljs.initHighlightingOnLoad();</script>
+
+	</body>
+</html>

@@ -1,0 +1,132 @@
+<h1 id="block-dash">Block-Dash</h1>
+
+<p><a href="https://travis-ci.org/sqli-nantes/blockchain-dashboard"><img src="https://travis-ci.org/sqli-nantes/blockchain-dashboard.svg?branch=master" alt="Build Status" /></a> <a href="https://david-dm.org/sqli-nantes/blockchain-dashboard"><img src="https://david-dm.org/sqli-nantes/blockchain-dashboard/status.svg" alt="dependencies Status" /></a></p>
+
+<p>DashBoard for the Blockchain’s transactions.</p>
+
+<p><strong>Note: This app have been initialized with <a href="https://github.com/preboot/angular2-webpack">preboot/angular2-webpack</a>.</strong></p>
+
+<h2 id="quick-start">Quick start</h2>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Clone our repo</span>
+<span class="gp">$ </span>git clone https://github.com/sqli-nantes/blockchain-dashboard block-dash
+
+<span class="c"># change directory to your app</span>
+<span class="gp">$ </span><span class="nb">cd </span>block-dash
+
+<span class="c"># install the global dependency with webpack</span>
+<span class="gp">$ </span>npm install -g webpack
+
+<span class="c"># install the dependencies with npm</span>
+<span class="gp">$ </span>npm install
+
+<span class="c"># start the server</span>
+<span class="gp">$ </span>npm start
+</code></pre>
+</div>
+
+<h1 id="getting-started">Getting Started</h1>
+
+<h2 id="dependencies">Dependencies</h2>
+
+<p>What you need to run this app:</p>
+<ul>
+  <li><code class="highlighter-rouge">node</code> and <code class="highlighter-rouge">npm</code> (Use <a href="https://github.com/creationix/nvm">NVM</a>).</li>
+  <li>Ensure you’re running Node (<code class="highlighter-rouge">v4.x.x</code>+) and NPM (<code class="highlighter-rouge">3.x.x</code>+).</li>
+</ul>
+
+<h3 id="librairies-used">Librairies used</h3>
+
+<ul>
+  <li><code class="highlighter-rouge">Lodash</code> (<code class="highlighter-rouge">v4.16.x</code>) // JS librairie for array and collection.</li>
+  <li><code class="highlighter-rouge">gsap</code> (<code class="highlighter-rouge">v1.19.x</code>) // JS Animations.</li>
+  <li><code class="highlighter-rouge">karma</code> (<code class="highlighter-rouge">v0.13.x</code>) // Test JS.</li>
+  <li><code class="highlighter-rouge">web3</code> (<code class="highlighter-rouge">v0.17.0-alpha</code>) // Connection to the smart-contracts.</li>
+  <li><code class="highlighter-rouge">rxjs</code> (<code class="highlighter-rouge">v5.0.0-beta.12</code>) // Observables.</li>
+  <li><code class="highlighter-rouge">Google Charts</code> // Evolutions Charts.</li>
+</ul>
+
+<h2 id="installing">Installing</h2>
+
+<ul>
+  <li><code class="highlighter-rouge">fork</code> // this repo.</li>
+  <li><code class="highlighter-rouge">clone</code> // your fork.</li>
+  <li><code class="highlighter-rouge">npm install</code> // to install all dependencies.</li>
+</ul>
+
+<h2 id="developing">Developing</h2>
+
+<p>After you have installed all dependencies you can now start developing with:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">npm start</code></li>
+</ul>
+
+<p>It will start a local server using <code class="highlighter-rouge">webpack-dev-server</code> which will watch, build (in-memory), and reload for you. The application can be checked at <code class="highlighter-rouge">http://localhost:8080</code>.</p>
+
+<p>And you are all set! You can now modify your components on the fly without having to reload the entire page.</p>
+
+<h2 id="config">Config</h2>
+
+<p>For the <strong>name</strong> configuration, go to <code class="highlighter-rouge">block-dash/src/public/res/json/name.json</code>.</p>
+
+<p>For <strong>IP</strong> of the configuration, go to <code class="highlighter-rouge">block-dash/src/public/res/json/ipRPI.json</code>.
+Default is http://10.33.44.222:8547</p>
+
+<h2 id="docker">Docker</h2>
+
+<p>In order to build the docker image :</p>
+
+<ul>
+  <li><code class="highlighter-rouge">cd dash-block</code></li>
+  <li><code class="highlighter-rouge">docker build -t dashboard-docker .</code> (Don’t forget the dot)</li>
+</ul>
+
+<p>In order to run the docker image :</p>
+
+<ul>
+  <li><code class="highlighter-rouge">docker run -d -p 8080:8080 -p 80:80 -p 443:443 -v pathToBootnode/names.json:/home/httpserver/src/public/res/json/names.json dashblock</code></li>
+</ul>
+
+<h1 id="modes">Modes</h1>
+
+<h2 id="blockchain-mode">BlockChain Mode</h2>
+
+<p>For the BlockChain mode check at <code class="highlighter-rouge">http://localhost:8080</code>. Ensure you have change the BlockChain’s IP configuration (see Config).</p>
+
+<h2 id="demo-mode">Demo Mode</h2>
+
+<p>For the Demo mode check at <code class="highlighter-rouge">http://localhost:8080/demo</code>. A logo in the bottom right will appear, telling it’s the demo mode.</p>
+
+<h2 id="offline-mode">Offline Mode</h2>
+
+<p>Run the docker image in order to allow access to the offline mode
+You can get the certificate in the container at : /home/httpserver/offline_mode/certificates/certificate.cert
+Look up for <code class="highlighter-rouge">docker exec MYCONTAINER cat /home/httpserver/offline_mode/certificates/certificate.crt</code> where MYCONTAINER is the reference to the container (Name or ID)</p>
+
+<h1 id="progress">Progress</h1>
+
+<h2 id="done">DONE</h2>
+
+<ul>
+  <li>Initialisation.</li>
+  <li>Demo mode.</li>
+  <li>Connection to the private BlockChain.</li>
+  <li>Graphics.</li>
+  <li>Animated list.</li>
+  <li>Continuous integration with Travis-ci.</li>
+  <li>Cut the internet access.</li>
+</ul>
+
+<h2 id="in-progress">IN PROGRESS</h2>
+
+<ul>
+  <li>Documentation</li>
+  <li>Docker.</li>
+</ul>
+
+<h2 id="todo">TODO</h2>
+
+<ul>
+  <li>More unit tests</li>
+</ul>

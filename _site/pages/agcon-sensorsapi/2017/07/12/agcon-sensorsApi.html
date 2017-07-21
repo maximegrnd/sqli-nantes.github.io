@@ -1,0 +1,17 @@
+<h1 id="agcon-sensorsapi">agcon-sensorsApi</h1>
+<p>API de présentation des données récupérés par les capteurs de l’agence connecté.</p>
+
+<h2 id="installation">Installation</h2>
+<p>git clone puis npm install</p>
+
+<h2 id="utilisation">Utilisation</h2>
+<p>npm start
+Les API disponibles sont :</p>
+
+<ul>
+  <li><strong>sensors/</strong> Liste des capteurs</li>
+  <li><strong>sensors/:id</strong> Descriptif d’un capteur (pagination ou embedded ?)</li>
+  <li><strong>sensors/:id/measures</strong> Liste de l’ensemble des mesures du capteur (pagination)</li>
+  <li><strong>rooms/</strong> Liste des lieux contenant des capteurs - Paramétrage pour avoir le type de capteur</li>
+  <li><strong>rooms/:id</strong> Descriptif d’une salle contenant au moins un capteur</li>
+</ul>
