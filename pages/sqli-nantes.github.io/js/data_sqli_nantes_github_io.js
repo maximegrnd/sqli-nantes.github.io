@@ -5,7 +5,7 @@ var contributors1 = httpGetAsync('https://api.github.com/users/sqli-nantes/repos
 	json = JSON.parse(response);
 
 	json.forEach(function(entry, index){
-		if(entry.name == 'agcon-mid')
+		if(entry.name == 'sqli-nantes.github.io')
 			index_project = index;
 	});
 
@@ -16,7 +16,7 @@ var contributors1 = httpGetAsync('https://api.github.com/users/sqli-nantes/repos
 
 	$('#init_date').html('Created ' + create_date);
 
-	var contributors2 = httpGetAsync('https://api.github.com/repos/sqli-nantes/agcon-mid/commits', function(response) {
+	var contributors2 = httpGetAsync('https://api.github.com/repos/sqli-nantes/sqli-nantes.github.io/commits', function(response) {
 
 		json = JSON.parse(response);
 
@@ -28,7 +28,7 @@ var contributors1 = httpGetAsync('https://api.github.com/users/sqli-nantes/repos
 		$('#last_update').html('Updated ' + update_date);
 	});
 
-	var contributors3 = httpGetAsync('https://api.github.com/repos/sqli-nantes/agcon-mid/stats/contributors', function(response) {
+	var contributors3 = httpGetAsync('https://api.github.com/repos/sqli-nantes/sqli-nantes.github.io/stats/contributors', function(response) {
 		
 		json = JSON.parse(response);
 
