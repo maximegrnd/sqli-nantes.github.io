@@ -27,16 +27,6 @@ var contributors = httpGetAsync('https://api.github.com/users/sqli-nantes/repos?
 		else if (langage == null) {
 			image_project['default_image'] = 'images/default_image.jpg';
 		}
-		
-		var updated = entry.updated_at;
-
-		array.push({titre, updated});
-
-		function sortFunction () {
-			// Algorithme à écrire
-		};
-
-		array.sort(sortFunction);
 
 		// image_project['titre'] = 'images/*.ext';
 
