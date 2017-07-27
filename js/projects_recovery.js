@@ -36,7 +36,7 @@ var contributors = httpGetAsync('https://api.github.com/users/sqli-nantes/repos?
 		var url_project = 'pages/' + titre + '/index.html';
 
 		if(UrlExists(url_project)) {
-		    button = '<footer><a href="pages/' + titre + '/index.html" class="button alt">Find out more</a></footer></section></div>';												
+		    button = '<footer><a href="pages/' + titre + '/index.html" class="button alt">En savoir plus</a></footer></section></div>';												
 		}				  
 
 		block_project += (image_project[titre] !== undefined?image_project[titre]:image_project['default_image']);
