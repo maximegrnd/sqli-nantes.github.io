@@ -43,7 +43,9 @@ var contributors = httpGetAsync('https://api.github.com/users/sqli-nantes/repos?
 		else if (langage == null) {
 			image_project['default_image'] = 'images/default_image.jpg';
 		}
-
+		
+		// image_project['titre'] = 'images/*.ext';
+		
 		var date = entry.pushed_at;
 		var updated_date = Date.parse(date);
 
