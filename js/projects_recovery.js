@@ -64,8 +64,6 @@ var contributors = httpGetAsync('https://api.github.com/users/sqli-nantes/repos?
 
 		var url_project = 'pages/' + element.titre + '/index.html';
 
-		console.log("titre projet : " + element.titre);
-
 		if(UrlExists(url_project)) {
 		    button = '<footer><a href="pages/' + element.titre + '/index.html" class="button alt">En savoir plus</a></footer></section></div>';												
 		}				  
