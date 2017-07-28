@@ -28,4 +28,4 @@ Récapitulatif des manoeuvres à effectuer :
 
 `{% for post in site.posts %} {% if post.path contains "/AAAA-MM-JJ-nom_du_programme.md" %} <div class="content"> {{ post.content }} </div> {% endif %} {% endfor %}`
 
-7. Enfin, corriger si besoin le chemin du logo projet correspondant au langage de développement dominant de votre programme (ligne 25). Si votre projet possède son propre symbole, indiquez alors ce dernier.
+7. Dernière étape, corriger si besoin le chemin du logo projet correspondant au langage de développement dominant de votre programme (ligne 25). Si votre projet possède son propre symbole, indiquez alors ce dernier.
