@@ -24,8 +24,8 @@ Récapitulatif des manoeuvres à effectuer :
 3. Ouvrir ce même fichier et modifier les liens de l'API GitHub afin de les faire coïncider avec votre projet
 4. Placer le README.md de votre programme et le renommer sous la forme suivante : AAAA-MM-JJ-nom_du_programme.md
 5. Ouvrir l'index.html présent et modifier le chemin qui associe le fichier data_[...].js pour le faire correspondre à votre projet (ligne 69)
-6. Enfin, dans ce même fichier, changer la macro présente par (ligne 48) :
+6. Dans ce même fichier, changer la macro présente par (ligne 48) :
 
 `{% for post in site.posts %} {% if post.path contains "/AAAA-MM-JJ-nom_du_programme.md" %} <div class="content"> {{ post.content }} </div> {% endif %} {% endfor %}`
 
-9. Corriger, si besoin, le chemin du logo projet correspondant au langage de développement dominant de votre programme (ligne 25). Si votre projet possède son propre symbole, indiquez alors ce dernier.
+9. Enfin, corriger si besoin, le chemin du logo projet correspondant au langage de développement dominant de votre programme (ligne 25). Si votre projet possède son propre symbole, indiquez alors ce dernier.
