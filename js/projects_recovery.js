@@ -18,14 +18,24 @@ function sortMax(tab) {
 	}
 }
 
+function sortByUpdatedDateDESC(a, b) {
+  if (a.updated_date < b.updated_date)
+     return -1;
+  if (a.updated_date > b.updated_date)
+     return 1;
+  return 0;
+}
+
 var contributors = httpGetAsync('https://api.github.com/users/sqli-nantes/repos?per_page=100', function(response) {
 
 	json = JSON.parse(response);
 
-	var array = new Array ({
-	});
-
-	json.forEach(function(entry){
+	var result = json.filter(entry => {
+		var dontKeep = entry.fork
+			|| name === "sqli-nantes.github.io"
+		    || name.includes("deprecated");
+		return !dontKeep;
+	}).map(entry => {
 
 		var titre = entry.name;
 		var description = entry.description;
@@ -49,15 +59,13 @@ var contributors = httpGetAsync('https://api.github.com/users/sqli-nantes/repos?
 		var date = entry.pushed_at;
 		var updated_date = Date.parse(date);
 
-		array.push({titre, description, image_project, updated_date});
+		return {
+			titre, description, image_project, updated_date
+		};
 		
-	});
+	}).sort(sortByUpdatedDateDESC);
 
-	array.splice(0,1);
-	sortMax(array);
-	array.reverse();
-
-	array.forEach( function(element) {
+	result.forEach( function(element) {
 
 		var block_project = '<li><span class="image"><img src="';
 		var button = '';
