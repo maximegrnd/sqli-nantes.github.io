@@ -5,19 +5,6 @@ function UrlExists(url) {
     return http.status!=404;
 }
 
-function sortMax(tab) {
-	for (var ind01 = tab.length-1; ind01 >= 0;ind01--) {
-		var temp;
-		for (var ind02 = tab.length-1; ind02 >= 0;ind02--) {
-			if (tab[ind02].updated_date < tab[ind01].updated_date) {
-				temp = tab[ind02];
-				tab[ind02] = tab[ind01];
-				tab[ind01] = temp;
-			}
-		}
-	}
-}
-
 function sortByUpdatedDateDESC(a, b) {
   if (a.updated_date < b.updated_date)
      return -1;
