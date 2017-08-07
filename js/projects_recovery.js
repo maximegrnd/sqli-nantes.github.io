@@ -7,9 +7,9 @@ function UrlExists(url) {
 
 function sortByUpdatedDateDESC(a, b) {
   if (a.updated_date < b.updated_date)
-     return -1;
-  if (a.updated_date > b.updated_date)
      return 1;
+  if (a.updated_date > b.updated_date)
+     return -1;
   return 0;
 }
 
