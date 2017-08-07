@@ -19,8 +19,8 @@ var contributors = httpGetAsync('https://api.github.com/users/sqli-nantes/repos?
 
 	var result = json.filter(entry => {
 		var dontKeep = entry.fork
-			|| name === "sqli-nantes.github.io"
-		    || name.includes("deprecated");
+			|| entry.name === "sqli-nantes.github.io"
+		    || entry.name.includes("deprecated");
 		return !dontKeep;
 	}).map(entry => {
 
