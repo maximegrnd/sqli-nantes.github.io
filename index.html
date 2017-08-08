@@ -86,7 +86,13 @@
 								<ul class="features" id="container_projects">
 									{% for repository in site.github.public_repositories %}
 										<li>
-											<span class="image"><a href="{{ repository.html_url }}"><img src=""></a></span>
+											<span class="image"><a href="{{ repository.html_url }}">
+											{% if repository.language %}
+												<img id="logo" src="images/{{ repository.language }}.png">
+											{% else %}
+												<img id="logo" src="images/default_image.jpg">
+											{% endif %}
+											</a></span>
 											<h3 id="{{ repository.name }}"><a href="{{ repository.html_url }}">{{ repository.name }}</a></h3>
 											<p id="{{ repository.name }}_desc">{{ repository.description }}</p>
 										</li>
