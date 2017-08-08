@@ -1694,7 +1694,7 @@
 	}
 
 	p {
-		margin: 0 0 2em 0;
+		margin: 0 0 1em 0;
 	}
 
 		p.content {
@@ -3750,13 +3750,13 @@
 		-webkit-flex-wrap: wrap;
 		-ms-flex-wrap: wrap;
 		flex-wrap: wrap;
-		padding: 5em 5em 1em 5em ;
+		padding: 2em 5em 1em 5em ;
 		width: calc(100% + 2em);
 		margin: 0 0 0em -2em;
 	}
 
 		#footer > * {
-			width: calc(50% - 2em);
+			width: calc(80% - 2em);
 			margin-left: 2em;
 		}
 
