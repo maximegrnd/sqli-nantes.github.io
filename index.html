@@ -85,25 +85,25 @@
 								</header>
 								<ul class="features" id="container_projects">
 
+								{% assign repositories = site.github.public_repositories | sort: 'updated_at' | reverse %}
 
-
-									{% for repository in site.github.public_repositories %}
-										{% unless repository.fork
-											or repository.name == 'sqli-nantes.github.io'
-											or repository.name.contains 'deprecated' %}
-											<li>
-												<span class="image"><a href="{{ repository.html_url }}">
-												{% if repository.language %}
-													<img id="logo" src="images/{{ repository.language }}.png">
-												{% else %}
-													<img id="logo" src="images/default_image.jpg">
-												{% endif %}
-												</a></span>
-												<h3 id="{{ repository.name }}"><a href="{{ repository.html_url }}">{{ repository.name }}</a></h3>
-												<p id="{{ repository.name }}_desc">{{ repository.description }}</p>
-											</li>
-										{% endunless %}
-									{% endfor %}
+								{% for repository in repositories %}
+									{% unless repository.fork
+										or repository.name == 'sqli-nantes.github.io'
+										or repository.name.contains 'deprecated' %}
+										<li>
+											<span class="image"><a href="{{ repository.html_url }}">
+											{% if repository.language %}
+												<img id="logo" src="images/{{ repository.language }}.png">
+											{% else %}
+												<img id="logo" src="images/default_image.jpg">
+											{% endif %}
+											</a></span>
+											<h3 id="{{ repository.name }}"><a href="{{ repository.html_url }}">{{ repository.name }}</a></h3>
+											<p id="{{ repository.name }}_desc">{{ repository.description }}</p>
+										</li>
+									{% endunless %}
+								{% endfor %}
 								</ul>
 							</section>
 
