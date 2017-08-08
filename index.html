@@ -86,8 +86,8 @@
 								<ul class="features" id="container_projects">
 									{% for repository in site.github.public_repositories %}
 										<li>
-											<span class="image"><img src=""></span>
-											<h3 id="{{ repository.name }}">{{ repository.name }}</h3>
+											<span class="image"><a href="{{ repository.html_url }}"><img src=""></a></span>
+											<h3 id="{{ repository.name }}"><a href="{{ repository.html_url }}">{{ repository.name }}</a></h3>
 											<p id="{{ repository.name }}_desc">{{ repository.description }}</p>
 										</li>
 									{% endfor %}
