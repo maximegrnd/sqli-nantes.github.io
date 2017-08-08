@@ -85,12 +85,12 @@
 								</header>
 								<ul class="features" id="container_projects">
 
-								{% assign repositories = site.github.public_repositories | sort: 'updated_at' | reverse %}
+								{% assign repositories = site.github.public_repositories | sort: 'pushed_at' | reverse %}
 
 								{% for repository in repositories %}
 									{% unless repository.fork
 										or repository.name == 'sqli-nantes.github.io'
-										or repository.name.contains 'deprecated' %}
+										or repository.name contains 'deprecated' %}
 										<li>
 											<span class="image"><a href="{{ repository.html_url }}">
 											{% if repository.language %}
